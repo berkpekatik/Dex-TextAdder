@@ -56,24 +56,30 @@ namespace TextAdder
             paths.AddRange(manifestList);
             foreach (var path in paths)
             {
-                if (!ControlText(path, @"client_script 'dexelirac.lua'"))
+                var fakePATH = path.Replace("__resource.lua", "");
+                fakePATH = fakePATH.Replace("fxmanifest.lua", "");
+                var stream = Directory.GetDirectories(fakePATH);
+                if (!stream.Where(x => x.Contains("stream")).Any())
                 {
-                    Console.WriteLine("Zaten kayıtlı! " + path);
-                }
-                else
-                {
-                    if (!AddText(path, @"client_script 'dexelirac.lua'"))
+                    if (!ControlText(path, @"client_script 'dexelirac.lua'"))
                     {
-                        Console.WriteLine("Bir hata oluştu! " + path);
+                        Console.WriteLine("Zaten kayıtlı! " + path);
                     }
                     else
                     {
-                        Console.WriteLine("Başarıyla eklendi! " + path);
-                        if (!PasteSc(path))
+                        if (!AddText(path, @"client_script 'dexelirac.lua'"))
                         {
-                            Console.WriteLine("dexelirac.lua " + path + " klasörüne eklenemedi!");
+                            Console.WriteLine("Bir hata oluştu! " + path);
                         }
+                        else
+                        {
+                            Console.WriteLine("Başarıyla eklendi! " + path);
+                            if (!PasteSc(path))
+                            {
+                                Console.WriteLine("dexelirac.lua " + path + " klasörüne eklenemedi!");
+                            }
 
+                        }
                     }
                 }
             }
