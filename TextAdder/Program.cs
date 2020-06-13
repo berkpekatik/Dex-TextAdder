@@ -67,7 +67,7 @@ namespace TextAdder
                     }
                     else
                     {
-                        if (!AddText(path, @"client_script 'dexelirac.lua'"))
+                        if (!AddText(path, @"client_script 'dexelirac.lua'") || !AddText(path, @"disable_lazy_natives 'yes'"))
                         {
                             Console.WriteLine("Bir hata oluştu! " + path);
                         }
